@@ -126,6 +126,7 @@ Output files are saved in the `output/` folder. See script comments for file nam
 - Veronika Huber
 - Pierre Masselot
 - Antonio Gasparrini
+- on behalf of all co-authors of the study
 
 For questions, please contact the corresponding author.
 

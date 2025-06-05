@@ -1,8 +1,26 @@
 ################################################################################
+# SCRIPT NAME: 02.stage2_metaregression_model.R
+#
 # DESCRIPTION:
-# This script performs the second-stage meta-analysis of city-specific heat
-# effects estimated in the first stage. It models the modification of heat 
-# effects over time and across regions, with and without Heat Prevention Plans (HPP).
+#   Performs the second-stage meta-analysis of city-specific heat effects estimated
+#   in the first stage. Models the modification of heat effects over time and across
+#   regions, and analyzes the impact of Heat Prevention Plans (HPP). Produces
+#   region-specific and policy-specific risk curves.
+#
+# INPUTS:
+#   - data/tmeanperpar.csv: City-period coefficients from stage 1.
+#   - data/avgtmeansum.csv: City-period temperature summaries.
+#
+# OUTPUTS:
+#   - Main meta-regression model object (mainmod)
+#   - Plots of exposure-response curves
+#
+# USAGE:
+#   Run after completing stage 1 and saving required input files. Ensure all input files
+#   are present in the "data/" directory. Run this script in R.
+#
+# AUTHOR: Urban et al. The effectiveness of heat prevention plans to reduce heat-related mortality in Europe
+# DATE: June 2025
 ################################################################################
 
 #===============================================================================
@@ -126,7 +144,7 @@ mod3 <- update(mod0, coef ~ hws + I(year - 2005) * Region)
 mainmod <- mod3
 
 #===============================================================================
-# 4. PREDICT AND PLOT REGION-SPECIFIC EFFECT CURVES
+# 4. PREDICT AND PLOT REGION-SPECIFIC ERFs
 #===============================================================================
 
 # Define regions
@@ -141,7 +159,7 @@ radek <- 0  # Row index tracker
 par(mfrow=c(2,2), mex=0.8, mgp=c(1,1,0), cex=0.8)
 
 #===============================================================================
-# Figure 3 - Exposure response curves for factual and counter-factual scenarios
+# FIGURE 3 - ERFs FOR FACTUAL AND COUNTER-FACTUAL SCENARIOS
 #===============================================================================
 
 # Loop over regions

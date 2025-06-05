@@ -23,7 +23,7 @@ This repository contains the full reproducible R code pipeline for the study: **
 
 ## Overview
 
-This project assesses the impact of heat prevention plans (heat warning systems, HWS) on heat-related mortality across European cities, following a multi-stage, meta-regression based analytical pipeline. Each R script corresponds to a major step in the analysis, from data preparation to final reporting and visualization.
+This project assesses the impact of heat prevention plans (heat early warning systems and heat-health action plans) on heat-related mortality across European cities, following a multi-stage meta-regression modelling framework. Each R script corresponds to a major step in the analysis, from data preparation to final reporting and visualization.
 
 ---
 

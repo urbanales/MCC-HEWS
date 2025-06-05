@@ -1,21 +1,36 @@
-
 ################################################################################
+# SCRIPT NAME: 03.stage3_attributable_mortality_calculation.R
+#
 # DESCRIPTION:
-# This script performs the third-stage analysis: using BLUPs from the second-stage
-# meta-regression to calculate Attributable Numbers (AN) and Attributable Fractions (AF)
-# across cities and countries, with uncertainty quantified via simulation.
-
-# IMPORTANT:
-# This script needs to be run twice: once for the counterfactual scenario (hws = 0),
-# and once for the factual scenario (hws = 1), adjusting the relevant variable in accordingly.
-# I.e. this requires changing the hws parameter in line 200
-# All objects including "hws0" from line 60 further need to be renamed.
+#   This script performs the third-stage analysis: using BLUPs from the second-stage
+#   meta-regression to calculate Attributable Numbers (AN) and Attributable Fractions (AF)
+#   across cities and countries, with uncertainty quantified via simulation.
+#
+# INPUTS:
+#   - Output from stage 2: mainmod, blup_rnd
+#   - City/country data objects from stage 1 (e.g., eu_cities, dlist, hws_ind)
+#
+# OUTPUTS:
+#   - Attributable mortality estimates (city, country, region, EU)
+#   - Simulation results for uncertainty quantification
+#
+# USAGE:
+#   This script must be run twice: once for the counterfactual scenario (hws = 0), and
+#   once for the factual scenario (hws = 1). Adjust the relevant variable accordingly.
+#   Ensure all required objects are loaded in the R environment before running.
+#   All necessary objects should be available from the stage 2 and data provided in 
+#   the supplementary material.
+#
+# AUTHORs: Aleš Urban, Veronika Huber, Pierre Masselot, Antonio Gasparrini
+# DATE: June 2025
 ################################################################################
 
 #===============================================================================
 # 1. LOAD REQUIRED PACKAGES
 #===============================================================================
+
 library(MASS)        # For multivariate normal simulation
+library(dlnm)        # For distributed lag non-linear models
 library(dplyr)       # Data manipulation
 library(lubridate)   # Date handling
 library(pracma)      # For ndims
@@ -41,7 +56,6 @@ required_objects <- c("mainmod","blup_rnd",
 
 check_required_objects(required_objects)
 
-
 #===============================================================================
 # 3. SIMULATE COEFFICIENTS FROM MAIN META-REGRESSION MODEL
 #===============================================================================
@@ -56,6 +70,10 @@ country <- levels(as.factor(eu_cities$countryname))
 citynames <- eu_cities$cityname
 
 country <- levels(as.factor(eu_cities$countryname))
+
+###############!!!
+# Rename all objects with "hws0" to "hws1" to get outputs for both scenarios
+###############!!!
 
 ansimlist_0_hws1 <- ansimlist_1_hws1 <- 
   afsimlist_0_hws1 <- afsimlist_1_hws1 <- 
@@ -196,6 +214,10 @@ for (r in 1:length(country)){
       
       #----- We have to prepare simulated coefficients
       
+      ###############!!!
+      # Set hws = 0 or hws = 1 here before running the script for each scenario!
+      ###############!!!
+
       # Data for prediction 
       datapred1 <- data.frame(Region=cities$Region[1],hws=1, year=yearlist[[y]][2]) # Expanded to all years
       

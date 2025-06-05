@@ -72,7 +72,7 @@ citynames <- eu_cities$cityname
 country <- levels(as.factor(eu_cities$countryname))
 
 ###############!!!
-# Rename all objects with "hws0" to "hws1" to get outputs for both scenarios
+# Rename all objects with "hws1" to "hws0" to get outputs for both scenarios
 ###############!!!
 
 ansimlist_0_hws1 <- ansimlist_1_hws1 <- 
@@ -88,7 +88,7 @@ ancitysimlist_0_hws1 <- ancitysimlist_1_hws1 <-
 # Tables for storing results
 af_table_countries_hws1 <- array(NA, c(length(country)*100, 11))
 colnames(af_table_countries_hws1) <- c("region","hwsclass","country","year","hws","AN","ANlow","ANhigh","AF","AFlow","AFhigh")
-radek <- 0
+row_index <- 0
 
 af_table_cities_hws1 <- array(NA,c(length(eu_cities$city)*10+1,12))
 colnames(af_table_cities_hws1) <- c("region","hwsclass","country","city","year","hws","AN","ANlow","ANhigh","AF","AFlow","AFhigh")
@@ -102,7 +102,7 @@ r <- 0
 
 af_table_countries_hws1 <- array(NA,c(length(country)*100,11))
 colnames(af_table_countries_hws1) <- c("region","hwsclass","country","year","hws","AN","ANlow","ANhigh","AF","AFlow","AFhigh")
-radek <- 0
+row_index <- 0
 
 af_table_cities_hws1 <- array(NA,c(length(eu_cities$city)*10+1,12))
 colnames(af_table_cities_hws1) <- c("region","hwsclass","country","city","year","hws","AN","ANlow","ANhigh","AF","AFlow","AFhigh")
@@ -217,7 +217,7 @@ for (r in 1:length(country)){
       ###############!!!
       # Set hws = 0 or hws = 1 here before running the script for each scenario!
       ###############!!!
-
+      
       # Data for prediction 
       datapred1 <- data.frame(Region=cities$Region[1],hws=1, year=yearlist[[y]][2]) # Expanded to all years
       
@@ -400,15 +400,15 @@ for (r in 1:length(country)){
   
   i<-0
   for (i in 1:length(df2)){
-    af_table_countries_hws1[radek+1:length(yearlistII),i] <- df2[,i]
+    af_table_countries_hws1[row_index+1:length(yearlistII),i] <- df2[,i]
   }
-  radek <- radek+length(yearlistII)
+  row_index <- row_index+length(yearlistII)
   
-  radek <- radek+1
-  af_table_countries_hws1[radek,] <- c(cities$Region[1],cities$hwc[1],country[r],"period1","0",as.numeric(ANhws10),as.numeric(ANhws1low0),as.numeric(ANhws1high0),
+  row_index <- row_index+1
+  af_table_countries_hws1[row_index,] <- c(cities$Region[1],cities$hwc[1],country[r],"period1","0",as.numeric(ANhws10),as.numeric(ANhws1low0),as.numeric(ANhws1high0),
                                        as.numeric(AFhws10),as.numeric(AFhws1low0),as.numeric(AFhws1high0))
-  radek <- radek+1
-  af_table_countries_hws1[radek,] <- c(cities$Region[1],cities$hwc[1],country[r],"period2","1",as.numeric(ANhws11),as.numeric(ANhws1low1),as.numeric(ANhws1high1),
+  row_index <- row_index+1
+  af_table_countries_hws1[row_index,] <- c(cities$Region[1],cities$hwc[1],country[r],"period2","1",as.numeric(ANhws11),as.numeric(ANhws1low1),as.numeric(ANhws1high1),
                                        as.numeric(AFhws11),as.numeric(AFhws1low1),as.numeric(AFhws1high1))
 }
 

@@ -52,7 +52,7 @@ This project assesses the impact of heat prevention plans (heat early warning sy
 - **Input data**: See `data/` directory and script-specific comments for input requirements.
 
 **Note on Original Data Availability:**  
-Mortality data used in this study were collected by collaborators within the MCC Network under (http://mccstudy.lshtm.ac.uk/) a data sharing agreement and cannot be made available publicly. The exposure-response curve coefficents based on this dataset, obtained with `01.stage1_data_preparation.R` are provided in `data/tmeanperpar.csv`. To access the raw mortality data from represented cities, researchers can contact the corresponding authors.
+Mortality data used in this study were collected by collaborators within the MCC Network under (http://mccstudy.lshtm.ac.uk/) a data sharing agreement and cannot be made available publicly. The exposure-response curve coefficents based on this dataset, obtained with `01.stage1_data_preparation.R` are provided in `data/tmeanperpar.csv` and enable to run the rest of the analysis in the fullest extent. To access the raw mortality data from represented cities, researchers can contact the corresponding author (Aleš Urban, urban@ufa.cas.cz or the MCC Network coordinators).
 
 ---
 

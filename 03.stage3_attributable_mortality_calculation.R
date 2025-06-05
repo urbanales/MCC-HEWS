@@ -416,7 +416,3 @@ for (r in 1:length(country)){
 # 7. EXPORT FINAL OUTPUTS (UNCOMMENT TO SAVE)
 #===============================================================================
 # write.csv(af_table_countries_hws0, "data/af_table_countries_hws0.csv", row.names=FALSE)
-
-#===============================================================================
-# END OF SCRIPT
-#===============================================================================

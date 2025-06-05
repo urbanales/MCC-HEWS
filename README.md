@@ -51,8 +51,8 @@ This project assesses the impact of heat prevention plans (heat early warning sy
   `dlnm`, `MASS`, `dplyr`, `lubridate`, `pracma`, `readr`, `tidyverse`, `ggplot2`, `scales`, `ggh4x`, `RColorBrewer`
 - **Input data**: See `data/` directory and script-specific comments for input requirements.
 
-**Note on Raw Dataset Availability:**  
-The original dataset of daily mortality from the study locations is not publicly available due to privacy and data sharing restrictions. The exposure-response curve coefficents based on this dataset, obtained via Step 01. Data Preparation are provided in data/tmeanperpar.csv.
+**Note on Original Data Availability:**  
+The original dataset of daily mortality from the study locations is not publicly available due to privacy and data sharing restrictions. The exposure-response curve coefficents based on this dataset, obtained via Step 01. Data Preparation are provided in data/tmeanperpar.csv. To access the raw data from represented cities, researchers can contact the corresponding authors.
 
 ---
 

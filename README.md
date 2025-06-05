@@ -112,7 +112,7 @@ The main dataset of daily mortality, temperature, and heat warning system status
 
 ## Outputs
 
-- **Tables:** CSV summary tables at country, region, HWS class, and EU level.
+- **Tables:** CSV summary tables at country, region, HPP class, and EU level.
 - **Figures:** Publication-ready plots (PDF/PNG) illustrating heat-attributable fractions and differences under different scenarios.
 - **Intermediate RData files:** For reproducibility and further analysis.
 

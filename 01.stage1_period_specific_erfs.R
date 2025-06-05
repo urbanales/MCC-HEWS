@@ -15,7 +15,7 @@
 #   The ERF  coefficients based on this dataset are provided in tmeanperpar.csv.
 #
 # INPUTS:
-#   - data/MCCdata_20230830.RData: Main data object with city-wise data lists (not provided).
+#   - data/MCCdata_20230830.RData: Main data object with city-wise data lists (not provided, see the NOTE above).
 #   - data/eu_cities.csv: Metadata about EU cities.
 #   - data/hws_ind.csv: national HPP class by year.
 #
@@ -103,10 +103,10 @@ for (i in seq_len(n_cities)) {
                                                  "hwscore","hwclass")], t(par), row.names=i)
   
   # --- By Period Model ---
-  yearlist <- list(
-    a=1990:1992, b=1993:1995, c=1996:1998, d=1999:2001,
-    e=2002:2004, f=2005:2007, g=2008:2010, h=2011:2013,
-    i=2014:2016, j=2017:2019)
+  yearlist <- list(a=1990:1992, b=1993:1995, c=1996:1998,
+                   d=1999:2001, e=2002:2004, f=2005:2007,
+                   g=2008:2010, h=2011:2013, i=2014:2016, 
+                   j=2017:2019)
   
   # Remove unused periods
   yearlist <- yearlist[sapply(yearlist, function(x) all(x %in% year(datasum$date)))]
@@ -168,7 +168,8 @@ tmeansum <- do.call(rbind, tmeansumlist)
 avgtmeansum <- data.frame(perc=names(tmeansumlist[[1]]),
                           tmean=apply(do.call(cbind, tmeansumlist), 1, mean))
 
-# --- Write Output ---
+## --- Write Output --- 
+## these objects based on the original temperature and mortality datasets are available in "data"
 # write.csv(tmeanpar, "data/tmeanpar.csv", row.names=FALSE)
 # write.csv(tmeanperpar, "data/tmeanperpar.csv", row.names=FALSE)
 # write.csv(avgtmeansum, "data/avgtmeansum.csv", row.names=FALSE)

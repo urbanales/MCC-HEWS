@@ -1,4 +1,3 @@
-
 ################################################################################
 # SCRIPT NAME: 04.stage4_final_analysis_and_reporting.R
 #
@@ -166,6 +165,9 @@ for (j in hwclass) {
 # Final output for inspection
 View(af_aftable_countries)
 
+# write.csv(af_aftable_countries, file="output/aftable_countriescsv", row.names=F)
+
+
 #===============================================================================
 # 4.2 REGION-LEVEL SUMMARY
 #===============================================================================
@@ -228,6 +230,9 @@ for (i in 1:length(regions)){
 }
 
 View(af_aftable_regions)
+
+# write.csv(af_aftable_regions, file="output/aftable_regions.csv", row.names=F)
+
 
 #===============================================================================
 # 4.3 HPPclass SUMMARY
@@ -292,6 +297,9 @@ for (i in 1:length(hwclass)){
 
 View(af_aftable_hwsclass)
 
+# write.csv(af_aftable_hwsclass, file="output/aftable_classes.csv", row.names=F)
+
+
 #===============================================================================
 # 4.4 EU-level SUMMARY
 #===============================================================================
@@ -354,6 +362,9 @@ row_index <- row_index+1
 
 View(af_aftable_EU)
 
+# write.csv(af_aftable_EU, file="output/aftable_EU.csv", row.names=F)
+
+
 #===============================================================================
 # FIGURE 4
 #===============================================================================
@@ -400,7 +411,7 @@ AF <- ggplot(af_aftable_sub,aes(x=country, y=AF,ymin=AFlow, ymax=AFhigh, fill=sc
   )
 print(AF)
 
-# pdf(paste(path_out,"HAF_regions_scenarios.pdf",sep=""),width=10,height=8)
+# pdf("output/HAF_regions_scenarios.pdf",sep=""),width=10,height=8)
 # print(AF)
 # dev.off()
 
@@ -455,6 +466,10 @@ AFratio <- ggplot(af_aftable_sub,aes(x=country, y=AF, ymin=AFlow,ymax=AFhigh, co
   )
 
 print(AFratio)
+
+# pdf("output/HAF_reatio_scenarios.pdf",sep=""),width=10,height=8)
+# print(AF)
+# dev.off()
 
 #===============================================================================
 # FIGURES S4 
@@ -514,3 +529,7 @@ for (r in 1:length(country)){
   legend("topright", c("factual","counterfactual"), pch=19, col=c(6,3), bty="n",cex=0.9)
   
 }
+
+# pdf("output/HAF_temporal_changes.pdf",sep=""),width=10,height=8)
+# print(AF)
+# dev.off()

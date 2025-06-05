@@ -52,7 +52,7 @@ This project assesses the impact of heat prevention plans (heat early warning sy
 - **Input data**: See `data/` directory and script-specific comments for input requirements.
 
 **Note on Raw Dataset Availability:**  
-The main dataset of daily mortality, temperature, and heat warning system status is not publicly available due to privacy and data sharing restrictions. Only aggregated data objects and code are provided here to ensure full reproducibility of all analyses presented in the study.
+The original dataset of daily mortality from the study locations is not publicly available due to privacy and data sharing restrictions. The exposure-response curve coefficents based on this dataset, obtained via Step 01. Data Preparation are provided in data/tmeanperpar.csv.
 
 ---
 

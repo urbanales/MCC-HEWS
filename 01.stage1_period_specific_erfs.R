@@ -9,8 +9,9 @@
 #
 #   NOTE: The input file "MCCdata_20230830.RData" cannot be publicly provided due to
 #   data sharing restrictions. This script demonstrates the methods and steps used 
-#   to obtain the ERF coefficients in stage 1; to reproduce the exact results you 
-#   would need access to the original data.
+#   to obtain the ERF coefficients in stage 1; to reproduce the exact results, 
+#   researchers can contact the corresponding author (Aleš Urban, urban@ufa.cas.cz)
+#   for information on accessing the data used for this study and for the R code. 
 #
 # INPUTS:
 #   - data/MCCdata_20230830.RData: Main data object with city-wise data lists (not provided).
@@ -23,8 +24,8 @@
 # USAGE:
 #   Ensure all input files are present in the "data/" directory. Run this script in R.
 #
-# AUTHOR: [Your Name or contact]
-# DATE: [Today's date]
+# AUTHOR: Urban et al. The effectiveness of heat prevention plans to reduce heat-related mortality in Europe
+# DATE: June 2025
 ################################################################################
 
 # --- Setup Environment ---

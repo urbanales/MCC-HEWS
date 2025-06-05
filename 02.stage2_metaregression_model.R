@@ -19,7 +19,7 @@
 #   Run after completing stage 1 and saving required input files. Ensure all input files
 #   are present in the "data/" directory. Run this script in R.
 #
-# AUTHOR: Urban et al. The effectiveness of heat prevention plans to reduce heat-related mortality in Europe
+# AUTHORs: Aleš Urban, Veronika Huber, Pierre Masselot, Antonio Gasparrini
 # DATE: June 2025
 ################################################################################
 

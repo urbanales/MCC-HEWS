@@ -12,11 +12,12 @@
 #   to obtain the ERF coefficients in stage 1; to reproduce the exact results, 
 #   researchers can contact the corresponding author (Aleš Urban, urban@ufa.cas.cz)
 #   for information on accessing the data used for this study and for the R code. 
+#   The ERF  coefficients based on this dataset are provided in tmeanperpar.csv.
 #
 # INPUTS:
 #   - data/MCCdata_20230830.RData: Main data object with city-wise data lists (not provided).
 #   - data/eu_cities.csv: Metadata about EU cities.
-#   - data/hws_ind.csv: Heatwave score indices by country/year.
+#   - data/hws_ind.csv: national HPP class by year.
 #
 # OUTPUTS:
 #   - R objects: tmeanpar, tmeanperpar, tmeansum, avgtmeansum (can be saved as CSV)

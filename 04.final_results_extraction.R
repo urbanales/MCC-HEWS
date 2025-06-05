@@ -164,9 +164,7 @@ for (j in hwclass) {
 
 # Final output for inspection
 View(af_aftable_countries)
-
 # write.csv(af_aftable_countries, file="output/aftable_countriescsv", row.names=F)
-
 
 #===============================================================================
 # 4.2 REGION-LEVEL SUMMARY
@@ -196,41 +194,47 @@ for (i in 1:length(regions)){
   row_index <- row_index+1
   
   af_aftable_regions[row_index,]=c(regions[i],
-                               as.numeric(af_aftable_regions[,2][which(af_aftable_regions[,1]==regions[i] & af_aftable_regions[,8]=="period2_cft")])-as.numeric(af_aftable_regions[,2][which(af_aftable_regions[,1]==regions[i] & af_aftable_regions[,8]=="period1")]),
+                               as.numeric(af_aftable_regions[,2][which(af_aftable_regions[,1]==regions[i] & af_aftable_regions[,8]=="period2_cft")])-
+                                   as.numeric(af_aftable_regions[,2][which(af_aftable_regions[,1]==regions[i] & af_aftable_regions[,8]=="period1")]),
                                "-","-",
-                               ((as.numeric(af_aftable_regions[,5][which(af_aftable_regions[,1]==regions[i] & af_aftable_regions[,8]=="period2_cft")])-as.numeric(af_aftable_regions[,5][which(af_aftable_regions[,1]==regions[i] & af_aftable_regions[,8]=="period1")]))/
+                               ((as.numeric(af_aftable_regions[,5][which(af_aftable_regions[,1]==regions[i] & af_aftable_regions[,8]=="period2_cft")])-
+                                 as.numeric(af_aftable_regions[,5][which(af_aftable_regions[,1]==regions[i] & af_aftable_regions[,8]=="period1")]))/
                                   as.numeric(af_aftable_regions[,5][which(af_aftable_regions[,1]==regions[i] & af_aftable_regions[,8]=="period1")])),
                                "-","-","HAF ratio_cft")
   row_index <- row_index+1
   
   af_aftable_regions[row_index,]=c(regions[i],
-                               as.numeric(af_aftable_regions[,2][which(af_aftable_regions[,1]==regions[i] & af_aftable_regions[,8]=="period2_fct")])-as.numeric(af_aftable_regions[,2][which(af_aftable_regions[,1]==regions[i] & af_aftable_regions[,8]=="period1")]),
+                               as.numeric(af_aftable_regions[,2][which(af_aftable_regions[,1]==regions[i] & af_aftable_regions[,8]=="period2_fct")])-
+                                   as.numeric(af_aftable_regions[,2][which(af_aftable_regions[,1]==regions[i] & af_aftable_regions[,8]=="period1")]),
                                "-","-",
-                               ((as.numeric(af_aftable_regions[,5][which(af_aftable_regions[,1]==regions[i] & af_aftable_regions[,8]=="period2_fct")])-as.numeric(af_aftable_regions[,5][which(af_aftable_regions[,1]==regions[i] & af_aftable_regions[,8]=="period1")]))/
+                               ((as.numeric(af_aftable_regions[,5][which(af_aftable_regions[,1]==regions[i] & af_aftable_regions[,8]=="period2_fct")])-
+                                 as.numeric(af_aftable_regions[,5][which(af_aftable_regions[,1]==regions[i] & af_aftable_regions[,8]=="period1")]))/
                                   as.numeric(af_aftable_regions[,5][which(af_aftable_regions[,1]==regions[i] & af_aftable_regions[,8]=="period1")])),
                                "-","-","HAF ratio_fct")
   row_index <- row_index+1
   
   af_aftable_regions[row_index,]=c(regions[i],
-                               as.numeric(af_aftable_regions[,2][which(af_aftable_regions[,1]==regions[i] & af_aftable_regions[,8]=="period2_fct")])-as.numeric(af_aftable_regions[,2][which(af_aftable_regions[,1]==regions[i] & af_aftable_regions[,8]=="period2_cft")]),
-                               quantile(colMeans(ansimlist_1_hws1[which(ansimlist_1_hws1$region==regions[i]),c(1:100)])-colMeans(ansimlist_1_hws0[which(ansimlist_1_hws0$region==regions[i]),c(1:100)]),.025, na.rm = T),
-                               quantile(colMeans(ansimlist_1_hws1[which(ansimlist_1_hws1$region==regions[i]),c(1:100)])-colMeans(ansimlist_1_hws0[which(ansimlist_1_hws0$region==regions[i]),c(1:100)]),.975, na.rm = T),
+                               as.numeric(af_aftable_regions[,2][which(af_aftable_regions[,1]==regions[i] & af_aftable_regions[,8]=="period2_fct")])-
+                                   as.numeric(af_aftable_regions[,2][which(af_aftable_regions[,1]==regions[i] & af_aftable_regions[,8]=="period2_cft")]),
+                               quantile(colMeans(ansimlist_1_hws1[which(ansimlist_1_hws1$region==regions[i]),c(1:100)])-
+                                        colMeans(ansimlist_1_hws0[which(ansimlist_1_hws0$region==regions[i]),c(1:100)]),.025, na.rm = T),
+                               quantile(colMeans(ansimlist_1_hws1[which(ansimlist_1_hws1$region==regions[i]),c(1:100)])-
+                                        colMeans(ansimlist_1_hws0[which(ansimlist_1_hws0$region==regions[i]),c(1:100)]),.975, na.rm = T),
                                
-                               (as.numeric(af_aftable_regions[,5][which(af_aftable_regions[,1]==regions[i] & af_aftable_regions[,8]=="period2_fct")])-as.numeric(af_aftable_regions[,5][which(af_aftable_regions[,1]==regions[i] & af_aftable_regions[,8]=="period2_cft")]))/
+                               (as.numeric(af_aftable_regions[,5][which(af_aftable_regions[,1]==regions[i] & af_aftable_regions[,8]=="period2_fct")])-
+                                as.numeric(af_aftable_regions[,5][which(af_aftable_regions[,1]==regions[i] & af_aftable_regions[,8]=="period2_cft")]))/
                                  as.numeric(af_aftable_regions[,5][which(af_aftable_regions[,1]==regions[i] & af_aftable_regions[,8]=="period2_cft")])*100,
-                               quantile((colMeans(afsimlist_1_hws1[which(afsimlist_1_hws1$region==regions[i]),c(1:100)])-colMeans(afsimlist_1_hws0[which(afsimlist_1_hws0$region==regions[i]),c(1:100)]))/
+                               quantile((colMeans(afsimlist_1_hws1[which(afsimlist_1_hws1$region==regions[i]),c(1:100)])-
+                                         colMeans(afsimlist_1_hws0[which(afsimlist_1_hws0$region==regions[i]),c(1:100)]))/
                                           colMeans(afsimlist_1_hws0[which(afsimlist_1_hws0$region==regions[i]),c(1:100)]),.025, na.rm = T)*100,
-                               quantile((colMeans(afsimlist_1_hws1[which(afsimlist_1_hws1$region==regions[i]),c(1:100)])-colMeans(afsimlist_1_hws0[which(afsimlist_1_hws0$region==regions[i]),c(1:100)]))/
+                               quantile((colMeans(afsimlist_1_hws1[which(afsimlist_1_hws1$region==regions[i]),c(1:100)])-
+                                         colMeans(afsimlist_1_hws0[which(afsimlist_1_hws0$region==regions[i]),c(1:100)]))/
                                           colMeans(afsimlist_1_hws0[which(afsimlist_1_hws0$region==regions[i]),c(1:100)]),.975, na.rm = T)*100,
                                "HAF ratio_cft-fct")
   row_index <- row_index+1
-  
-  
-  
 }
 
 View(af_aftable_regions)
-
 # write.csv(af_aftable_regions, file="output/aftable_regions.csv", row.names=F)
 
 
@@ -262,43 +266,48 @@ for (i in 1:length(hwclass)){
   row_index <- row_index+1
   
   af_aftable_hwsclass[row_index,]=c(hwclass[i],
-                                as.numeric(af_aftable_hwsclass[,2][which(af_aftable_hwsclass[,1]==hwclass[i] & af_aftable_hwsclass[,8]=="period2_cft")])-as.numeric(af_aftable_hwsclass[,2][which(af_aftable_hwsclass[,1]==hwclass[i] & af_aftable_hwsclass[,8]=="period1")]),
+                                as.numeric(af_aftable_hwsclass[,2][which(af_aftable_hwsclass[,1]==hwclass[i] & af_aftable_hwsclass[,8]=="period2_cft")])-
+                                    as.numeric(af_aftable_hwsclass[,2][which(af_aftable_hwsclass[,1]==hwclass[i] & af_aftable_hwsclass[,8]=="period1")]),
                                 "-","-",
-                                ((as.numeric(af_aftable_hwsclass[,5][which(af_aftable_hwsclass[,1]==hwclass[i] & af_aftable_hwsclass[,8]=="period2_cft")])-as.numeric(af_aftable_hwsclass[,5][which(af_aftable_hwsclass[,1]==hwclass[i] & af_aftable_hwsclass[,8]=="period1")]))/
+                                ((as.numeric(af_aftable_hwsclass[,5][which(af_aftable_hwsclass[,1]==hwclass[i] & af_aftable_hwsclass[,8]=="period2_cft")])-
+                                  as.numeric(af_aftable_hwsclass[,5][which(af_aftable_hwsclass[,1]==hwclass[i] & af_aftable_hwsclass[,8]=="period1")]))/
                                    as.numeric(af_aftable_hwsclass[,5][which(af_aftable_hwsclass[,1]==hwclass[i] & af_aftable_hwsclass[,8]=="period1")])),
                                 "-","-","HAF ratio_cft")
   row_index <- row_index+1
   
   af_aftable_hwsclass[row_index,]=c(hwclass[i],
-                                as.numeric(af_aftable_hwsclass[,2][which(af_aftable_hwsclass[,1]==hwclass[i] & af_aftable_hwsclass[,8]=="period2_fct")])-as.numeric(af_aftable_hwsclass[,2][which(af_aftable_hwsclass[,1]==hwclass[i] & af_aftable_hwsclass[,8]=="period1")]),
+                                as.numeric(af_aftable_hwsclass[,2][which(af_aftable_hwsclass[,1]==hwclass[i] & af_aftable_hwsclass[,8]=="period2_fct")])-
+                                    as.numeric(af_aftable_hwsclass[,2][which(af_aftable_hwsclass[,1]==hwclass[i] & af_aftable_hwsclass[,8]=="period1")]),
                                 "-","-",
-                                ((as.numeric(af_aftable_hwsclass[,5][which(af_aftable_hwsclass[,1]==hwclass[i] & af_aftable_hwsclass[,8]=="period2_fct")])-as.numeric(af_aftable_hwsclass[,5][which(af_aftable_hwsclass[,1]==hwclass[i] & af_aftable_hwsclass[,8]=="period1")]))/
+                                ((as.numeric(af_aftable_hwsclass[,5][which(af_aftable_hwsclass[,1]==hwclass[i] & af_aftable_hwsclass[,8]=="period2_fct")])-
+                                  as.numeric(af_aftable_hwsclass[,5][which(af_aftable_hwsclass[,1]==hwclass[i] & af_aftable_hwsclass[,8]=="period1")]))/
                                    as.numeric(af_aftable_hwsclass[,5][which(af_aftable_hwsclass[,1]==hwclass[i] & af_aftable_hwsclass[,8]=="period1")])),
                                 "-","-","HAF ratio_fct")
   row_index <- row_index+1
   
   af_aftable_hwsclass[row_index,]=c(hwclass[i],
-                                as.numeric(af_aftable_hwsclass[,2][which(af_aftable_hwsclass[,1]==hwclass[i] & af_aftable_hwsclass[,8]=="period2_fct")])-as.numeric(af_aftable_hwsclass[,2][which(af_aftable_hwsclass[,1]==hwclass[i] & af_aftable_hwsclass[,8]=="period2_cft")]),
-                                quantile(colMeans(ansimlist_1_hws1[which(ansimlist_1_hws1$class==hwclass[i]),c(1:100)])-colMeans(ansimlist_1_hws0[which(ansimlist_1_hws0$class==hwclass[i]),c(1:100)]),.025, na.rm = T),
-                                quantile(colMeans(ansimlist_1_hws1[which(ansimlist_1_hws1$class==hwclass[i]),c(1:100)])-colMeans(ansimlist_1_hws0[which(ansimlist_1_hws0$class==hwclass[i]),c(1:100)]),.975, na.rm = T),
+                                as.numeric(af_aftable_hwsclass[,2][which(af_aftable_hwsclass[,1]==hwclass[i] & af_aftable_hwsclass[,8]=="period2_fct")])-
+                                    as.numeric(af_aftable_hwsclass[,2][which(af_aftable_hwsclass[,1]==hwclass[i] & af_aftable_hwsclass[,8]=="period2_cft")]),
+                                quantile(colMeans(ansimlist_1_hws1[which(ansimlist_1_hws1$class==hwclass[i]),c(1:100)])-
+                                         colMeans(ansimlist_1_hws0[which(ansimlist_1_hws0$class==hwclass[i]),c(1:100)]),.025, na.rm = T),
+                                quantile(colMeans(ansimlist_1_hws1[which(ansimlist_1_hws1$class==hwclass[i]),c(1:100)])-
+                                         colMeans(ansimlist_1_hws0[which(ansimlist_1_hws0$class==hwclass[i]),c(1:100)]),.975, na.rm = T),
                                 
-                                (as.numeric(af_aftable_hwsclass[,5][which(af_aftable_hwsclass[,1]==hwclass[i] & af_aftable_hwsclass[,8]=="period2_fct")])-as.numeric(af_aftable_hwsclass[,5][which(af_aftable_hwsclass[,1]==hwclass[i] & af_aftable_hwsclass[,8]=="period2_cft")]))/
+                                (as.numeric(af_aftable_hwsclass[,5][which(af_aftable_hwsclass[,1]==hwclass[i] & af_aftable_hwsclass[,8]=="period2_fct")])-
+                                 as.numeric(af_aftable_hwsclass[,5][which(af_aftable_hwsclass[,1]==hwclass[i] & af_aftable_hwsclass[,8]=="period2_cft")]))/
                                   as.numeric(af_aftable_hwsclass[,5][which(af_aftable_hwsclass[,1]==hwclass[i] & af_aftable_hwsclass[,8]=="period2_cft")])*100,
-                                quantile((colMeans(afsimlist_1_hws1[which(afsimlist_1_hws1$class==hwclass[i]),c(1:100)])-colMeans(afsimlist_1_hws0[which(afsimlist_1_hws0$class==hwclass[i]),c(1:100)]))/
+                                quantile((colMeans(afsimlist_1_hws1[which(afsimlist_1_hws1$class==hwclass[i]),c(1:100)])-
+                                          colMeans(afsimlist_1_hws0[which(afsimlist_1_hws0$class==hwclass[i]),c(1:100)]))/
                                            colMeans(afsimlist_1_hws0[which(afsimlist_1_hws0$class==hwclass[i]),c(1:100)]),.025, na.rm = T)*100,
-                                quantile((colMeans(afsimlist_1_hws1[which(afsimlist_1_hws1$class==hwclass[i]),c(1:100)])-colMeans(afsimlist_1_hws0[which(afsimlist_1_hws0$class==hwclass[i]),c(1:100)]))/
+                                quantile((colMeans(afsimlist_1_hws1[which(afsimlist_1_hws1$class==hwclass[i]),c(1:100)])-
+                                          colMeans(afsimlist_1_hws0[which(afsimlist_1_hws0$class==hwclass[i]),c(1:100)]))/
                                            colMeans(afsimlist_1_hws0[which(afsimlist_1_hws0$class==hwclass[i]),c(1:100)]),.975, na.rm = T)*100,
                                 "HAF ratio_cft-fct")
   row_index <- row_index+1
-  
-  
-  
 }
 
 View(af_aftable_hwsclass)
-
 # write.csv(af_aftable_hwsclass, file="output/aftable_classes.csv", row.names=F)
-
 
 #===============================================================================
 # 4.4 EU-level SUMMARY
@@ -308,9 +317,6 @@ View(af_aftable_hwsclass)
 af_aftable_EU <- array(NA,c(6,8))
 colnames(af_aftable_EU) <- c("region","AN","ANlow","ANhigh","AF","AFlow","AFhigh","scenario")
 row_index <- 1
-
-# i <- 1
-# for (i in 1:length(hwclass)){
 
 af_aftable_EU[row_index,]<-c("EU",colMeans(aftable[which(aftable$year=="period1"),c(6:11)]),
                          "period1")
@@ -327,43 +333,47 @@ af_aftable_EU[row_index,]<-(c("EU",colMeans(aftable[which(aftable$year=="period2
 row_index <- row_index+1
 
 af_aftable_EU[row_index,]=c("EU",
-                        as.numeric(af_aftable_EU[,2][which(af_aftable_EU[,8]=="period2_cft")])-as.numeric(af_aftable_EU[,2][which(af_aftable_EU[,8]=="period1")]),
+                        as.numeric(af_aftable_EU[,2][which(af_aftable_EU[,8]=="period2_cft")])-
+                            as.numeric(af_aftable_EU[,2][which(af_aftable_EU[,8]=="period1")]),
                         "-","-",
-                        ((as.numeric(af_aftable_EU[,5][which(af_aftable_EU[,8]=="period2_cft")])-as.numeric(af_aftable_EU[,5][which(af_aftable_EU[,8]=="period1")]))/
+                        ((as.numeric(af_aftable_EU[,5][which(af_aftable_EU[,8]=="period2_cft")])-
+                          as.numeric(af_aftable_EU[,5][which(af_aftable_EU[,8]=="period1")]))/
                            as.numeric(af_aftable_EU[,5][which(af_aftable_EU[,8]=="period1")])),
                         "-","-","HAF ratio_cft")
 row_index <- row_index+1
 
 af_aftable_EU[row_index,]=c("EU",
-                        as.numeric(af_aftable_EU[,2][which(af_aftable_EU[,8]=="period2_fct")])-as.numeric(af_aftable_EU[,2][which(af_aftable_EU[,8]=="period1")]),
+                        as.numeric(af_aftable_EU[,2][which(af_aftable_EU[,8]=="period2_fct")])-
+                            as.numeric(af_aftable_EU[,2][which(af_aftable_EU[,8]=="period1")]),
                         "-","-",
-                        ((as.numeric(af_aftable_EU[,5][which(af_aftable_EU[,8]=="period2_fct")])-as.numeric(af_aftable_EU[,5][which(af_aftable_EU[,8]=="period1")]))/
+                        ((as.numeric(af_aftable_EU[,5][which(af_aftable_EU[,8]=="period2_fct")])-
+                          as.numeric(af_aftable_EU[,5][which(af_aftable_EU[,8]=="period1")]))/
                            as.numeric(af_aftable_EU[,5][which(af_aftable_EU[,8]=="period1")])),
                         "-","-","HAF ratio_fct")
 row_index <- row_index+1
 
 af_aftable_EU[row_index,]=c("EU",
-                        as.numeric(af_aftable_EU[,2][which(af_aftable_EU[,8]=="period2_fct")])-as.numeric(af_aftable_EU[,2][which(af_aftable_EU[,8]=="period2_cft")]),
-                        quantile(colMeans(ansimlist_1_hws1[,c(1:100)])-colMeans(ansimlist_1_hws0[,c(1:100)]),.025, na.rm = T),
-                        quantile(colMeans(ansimlist_1_hws1[,c(1:100)])-colMeans(ansimlist_1_hws0[,c(1:100)]),.975, na.rm = T),
+                        as.numeric(af_aftable_EU[,2][which(af_aftable_EU[,8]=="period2_fct")])-
+                            as.numeric(af_aftable_EU[,2][which(af_aftable_EU[,8]=="period2_cft")]),
+                        quantile(colMeans(ansimlist_1_hws1[,c(1:100)])-
+                                 colMeans(ansimlist_1_hws0[,c(1:100)]),.025, na.rm = T),
+                        quantile(colMeans(ansimlist_1_hws1[,c(1:100)])-
+                                 colMeans(ansimlist_1_hws0[,c(1:100)]),.975, na.rm = T),
                         
-                        (as.numeric(af_aftable_EU[,5][which(af_aftable_EU[,8]=="period2_fct")])-as.numeric(af_aftable_EU[,5][which(af_aftable_EU[,8]=="period2_cft")]))/
+                        (as.numeric(af_aftable_EU[,5][which(af_aftable_EU[,8]=="period2_fct")])-
+                         as.numeric(af_aftable_EU[,5][which(af_aftable_EU[,8]=="period2_cft")]))/
                           as.numeric(af_aftable_EU[,5][which(af_aftable_EU[,8]=="period2_cft")])*100,
-                        quantile((colMeans(afsimlist_1_hws1[,c(1:100)])-colMeans(afsimlist_1_hws0[,c(1:100)]))/
+                        quantile((colMeans(afsimlist_1_hws1[,c(1:100)])-
+                                  colMeans(afsimlist_1_hws0[,c(1:100)]))/
                                    colMeans(afsimlist_1_hws0[,c(1:100)]),.025, na.rm = T)*100,
-                        quantile((colMeans(afsimlist_1_hws1[,c(1:100)])-colMeans(afsimlist_1_hws0[,c(1:100)]))/
+                        quantile((colMeans(afsimlist_1_hws1[,c(1:100)])-
+                                  colMeans(afsimlist_1_hws0[,c(1:100)]))/
                                    colMeans(afsimlist_1_hws0[,c(1:100)]),.975, na.rm = T)*100,
                         "HAF ratio_cft-fct")
 row_index <- row_index+1
 
-
-
-# }
-
 View(af_aftable_EU)
-
 # write.csv(af_aftable_EU, file="output/aftable_EU.csv", row.names=F)
-
 
 #===============================================================================
 # FIGURE 4
@@ -377,9 +387,13 @@ af_aftable_countries <- af_aftable_countries %>%
 
 
 # af_aftable_sub <- subset(af_aftable_regions,af_aftable_regions$country=="-")
-af_aftable_sub <- subset(af_aftable_countries,af_aftable_countries$scenario=="period1" | af_aftable_countries$scenario=="period2_cft" | af_aftable_countries$scenario=="period2_fct")
+af_aftable_sub <- subset(af_aftable_countries,af_aftable_countries$scenario=="period1" | 
+                         af_aftable_countries$scenario=="period2_cft" | 
+                         af_aftable_countries$scenario=="period2_fct")
+
 af_aftable_sub$region <- factor(af_aftable_sub$region,levels = c("Northern Europe","Eastern Europe",  
                                                                  "Western Europe", "Southern Europe"))
+
 af_aftable_sub$hwsclass <- factor(af_aftable_sub$hwsclass,levels = c("1","2","3"))
 af_aftable_sub$country <- as.factor(af_aftable_sub$country)
 
@@ -409,6 +423,7 @@ AF <- ggplot(af_aftable_sub,aes(x=country, y=AF,ymin=AFlow, ymax=AFhigh, fill=sc
     legend.position = "top"
     
   )
+
 print(AF)
 
 # pdf("output/HAF_regions_scenarios.pdf",sep=""),width=10,height=8)
@@ -468,12 +483,13 @@ AFratio <- ggplot(af_aftable_sub,aes(x=country, y=AF, ymin=AFlow,ymax=AFhigh, co
 print(AFratio)
 
 # pdf("output/HAF_reatio_scenarios.pdf",sep=""),width=10,height=8)
-# print(AF)
+# print(AFratio)
 # dev.off()
 
 #===============================================================================
 # FIGURES S4 
 #===============================================================================
+# pdf("output/HAF_countries_trends.pdf"),width=14,height=9)
 
 par(mfrow=c(3,3))
 
@@ -485,7 +501,6 @@ for (r in 1:length(country)){
   
   aftable_trends <- aftable[which(aftable$country==country[r]),]
   aftable_trends <- aftable_trends[-which(aftable_trends$year=="period1" | aftable_trends$year=="period2"),]
-  
   
   maxyear <- max(aftable_trends$year[which(aftable_trends$country==country[r] & aftable_trends$hws=="0")])
   minyear <- min(aftable_trends$year[which(aftable_trends$country==country[r] & aftable_trends$hws=="1")])
@@ -500,36 +515,41 @@ for (r in 1:length(country)){
   
   # counterfactual
   
-  points(as.numeric(aftable_trends$year[c(which(aftable_trends$year==maxyear),which(aftable_trends$year>maxyear))]), c(aftable_trends$AF[which(aftable_trends$year==maxyear)],aftable_trends$AF[which(aftable_trends$year>maxyear)]),
+  points(as.numeric(aftable_trends$year[c(which(aftable_trends$year==maxyear),which(aftable_trends$year>maxyear))]), 
+         c(aftable_trends$AF[which(aftable_trends$year==maxyear)],aftable_trends$AF[which(aftable_trends$year>maxyear)]),
          type="o", col=3, pch=19,lty="dashed")
-  arrows(as.numeric(aftable_trends$year[c(which(aftable_trends$year==maxyear),which(aftable_trends$year>maxyear))]), c(aftable_trends$AFlow[which(aftable_trends$year==maxyear)],aftable_trends$AFlow[which(aftable_trends$year>maxyear)]),
-         as.numeric(aftable_trends$year[c(which(aftable_trends$year==maxyear),which(aftable_trends$year>maxyear))]), c(aftable_trends$AFhigh[which(aftable_trends$year==maxyear)],aftable_trends$AFhigh[which(aftable_trends$year>maxyear)]),
+  arrows(as.numeric(aftable_trends$year[c(which(aftable_trends$year==maxyear),which(aftable_trends$year>maxyear))]), 
+         c(aftable_trends$AFlow[which(aftable_trends$year==maxyear)],aftable_trends$AFlow[which(aftable_trends$year>maxyear)]),
+         as.numeric(aftable_trends$year[c(which(aftable_trends$year==maxyear),which(aftable_trends$year>maxyear))]), 
+         c(aftable_trends$AFhigh[which(aftable_trends$year==maxyear)],aftable_trends$AFhigh[which(aftable_trends$year>maxyear)]),
          col=alpha(3,0.5),
          code=3, angle=90, length=0.05, lwd=1)
   
   # factual
   
-  points(as.numeric(aftable_trends$year[c(which(aftable_trends$year<maxyear),which(aftable_trends$year==maxyear))]), c(aftable_trends$AF[which(aftable_trends$year<maxyear)],aftable_trends$AF[which(aftable_trends$year==maxyear)]),
+  points(as.numeric(aftable_trends$year[c(which(aftable_trends$year<maxyear),which(aftable_trends$year==maxyear))]), 
+         c(aftable_trends$AF[which(aftable_trends$year<maxyear)],aftable_trends$AF[which(aftable_trends$year==maxyear)]),
          type="o", col=6, pch=19,lty="solid")
-  arrows(as.numeric(aftable_trends$year[c(which(aftable_trends$year<maxyear),which(aftable_trends$year==maxyear))]), c(aftable_trends$AFlow[which(aftable_trends$year<maxyear)],aftable_trends$AFlow[which(aftable_trends$year==maxyear)]),
-         as.numeric(aftable_trends$year[c(which(aftable_trends$year<maxyear),which(aftable_trends$year==maxyear))]), c(aftable_trends$AFhigh[which(aftable_trends$year<maxyear)],aftable_trends$AFhigh[which(aftable_trends$year==maxyear)]),
+  arrows(as.numeric(aftable_trends$year[c(which(aftable_trends$year<maxyear),which(aftable_trends$year==maxyear))]), 
+         c(aftable_trends$AFlow[which(aftable_trends$year<maxyear)],aftable_trends$AFlow[which(aftable_trends$year==maxyear)]),
+         as.numeric(aftable_trends$year[c(which(aftable_trends$year<maxyear),which(aftable_trends$year==maxyear))]), 
+         c(aftable_trends$AFhigh[which(aftable_trends$year<maxyear)],aftable_trends$AFhigh[which(aftable_trends$year==maxyear)]),
          col=alpha(6,0.5),
          code=3, angle=90, length=0.05, lwd=1)
   
-  points(as.numeric(aftable_trends$year[c(which(aftable_trends$year==maxyear),which(aftable_trends$year>maxyear))]), c(aftable_trends$AF[which(aftable_trends$year==maxyear)],aftable_trends$AF.1[which(aftable_trends$year>maxyear)]),
+  points(as.numeric(aftable_trends$year[c(which(aftable_trends$year==maxyear),which(aftable_trends$year>maxyear))]), 
+         c(aftable_trends$AF[which(aftable_trends$year==maxyear)],aftable_trends$AF.1[which(aftable_trends$year>maxyear)]),
          type="o", col=6, pch=19,lty="solid")
-  arrows(as.numeric(aftable_trends$year[c(which(aftable_trends$year==maxyear),which(aftable_trends$year>maxyear))]), c(aftable_trends$AFlow[which(aftable_trends$year==maxyear)],aftable_trends$AFlow.1[which(aftable_trends$year>maxyear)]),
-         as.numeric(aftable_trends$year[c(which(aftable_trends$year==maxyear),which(aftable_trends$year>maxyear))]), c(aftable_trends$AFhigh[which(aftable_trends$year==maxyear)],aftable_trends$AFhigh.1[which(aftable_trends$year>maxyear)]),
+  arrows(as.numeric(aftable_trends$year[c(which(aftable_trends$year==maxyear),which(aftable_trends$year>maxyear))]), 
+         c(aftable_trends$AFlow[which(aftable_trends$year==maxyear)],aftable_trends$AFlow.1[which(aftable_trends$year>maxyear)]),
+         as.numeric(aftable_trends$year[c(which(aftable_trends$year==maxyear),which(aftable_trends$year>maxyear))]), 
+         c(aftable_trends$AFhigh[which(aftable_trends$year==maxyear)],aftable_trends$AFhigh.1[which(aftable_trends$year>maxyear)]),
          col=alpha(6,0.5),
          code=3, angle=90, length=0.05, lwd=1)
-  
-  
-  
+    
   abline(h=0,col="grey75")
   legend("topright", c("factual","counterfactual"), pch=19, col=c(6,3), bty="n",cex=0.9)
   
 }
 
-# pdf("output/HAF_temporal_changes.pdf",sep=""),width=10,height=8)
-# print(AF)
 # dev.off()

@@ -1,3 +1,32 @@
+################################################################################
+# SCRIPT NAME: 01.stage1_period_specific_erfs.R
+#
+# DESCRIPTION:
+#   Performs the first-stage analysis for the MCC-HEWS project. This script fits
+#   city-specific distributed lag non-linear models (DLNMs) on summer temperature
+#   and mortality data to estimate excess risk functions (ERFs) for each city and
+#   time period. It saves coefficients and summaries for use in later meta-analysis.
+#
+#   NOTE: The input file "MCCdata_20230830.RData" cannot be publicly provided due to
+#   data sharing restrictions. This script demonstrates the methods and steps used 
+#   to obtain the ERF coefficients in stage 1; to reproduce the exact results you 
+#   would need access to the original data.
+#
+# INPUTS:
+#   - data/MCCdata_20230830.RData: Main data object with city-wise data lists (not provided).
+#   - data/eu_cities.csv: Metadata about EU cities.
+#   - data/hws_ind.csv: Heatwave score indices by country/year.
+#
+# OUTPUTS:
+#   - R objects: tmeanpar, tmeanperpar, tmeansum, avgtmeansum (can be saved as CSV)
+#
+# USAGE:
+#   Ensure all input files are present in the "data/" directory. Run this script in R.
+#
+# AUTHOR: [Your Name or contact]
+# DATE: [Today's date]
+################################################################################
+
 # --- Setup Environment ---
 # Place your input files in the data/ folder.
 
@@ -142,4 +171,3 @@ avgtmeansum <- data.frame(perc=names(tmeansumlist[[1]]),
 # write.csv(tmeanperpar, "data/tmeanperpar.csv", row.names=FALSE)
 # write.csv(avgtmeansum, "data/avgtmeansum.csv", row.names=FALSE)
 # write.csv(tmeansum, "data/tmeansum.csv", row.names=tmeanpar$cityname)
-

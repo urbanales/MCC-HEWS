@@ -1,5 +1,5 @@
 ################################################################################
-# SCRIPT NAME: 01.stage1_period_specific_erfs.R
+# SCRIPT NAME: 01.stage1_erf_coefficient_preparation.R
 #
 # DESCRIPTION:
 #   Performs the first-stage analysis for the MCC-HEWS project. This script fits

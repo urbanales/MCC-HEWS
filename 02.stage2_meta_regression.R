@@ -1,5 +1,5 @@
 ################################################################################
-# SCRIPT NAME: 02.stage2_metaregression_model.R
+# SCRIPT NAME: 02.stage2_meta_regression.R
 #
 # DESCRIPTION:
 #   Performs the second-stage meta-analysis of city-specific heat effects estimated

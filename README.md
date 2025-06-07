@@ -31,7 +31,7 @@ This project assesses the impact of heat prevention plans (heat early warning sy
 
 ```
 .
-├── 01.stage1_local_dlnms.R
+├── 01.stage1_stage1_erf_coefficient_preparation.R
 ├── 02.stage2_meta_regression.R
 ├── 03.stage3_attributable_mortality_calculation.R
 ├── 04.stage4_final_analysis_and_reporting.R

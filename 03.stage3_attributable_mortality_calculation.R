@@ -10,16 +10,23 @@
 #   - Output from stage 2: mainmod, blup_rnd
 #   - City/country data objects from stage 1 (e.g., eu_cities, dlist, hws_ind)
 #
+#   NOTE: The input file "dlist" cannot be publicly provided due to
+#   data sharing restrictions. This script demonstrates the methods and steps used 
+#   to obtain the AF and AN estimates in stage 3; to reproduce the exact results, 
+#   researchers can contact the corresponding author (Aleš Urban, urban@ufa.cas.cz)
+#   for information on accessing the data used for this study and for the R code. 
+#   The outputs based on this stage are provided in "data".
+#
 # OUTPUTS:
-#   - Attributable mortality estimates (city, country, region, EU)
-#   - Simulation results for uncertainty quantification
+#   - Attributable mortality estimates -
+#       * af_table_countries_hws0, af_table_countries_hws1
+#   - Simulation results for uncertainty quantification -  
+#       * ansimlist_0_hws0, ansimlist_1_hws0, ansimlist_0_hws1, ansimlist_1_hws1
+#       * afsimlist_0_hws0, afsimlist_1_hws0, afsimlist_0_hws1, afsimlist_1_hws1
 #
 # USAGE:
 #   This script must be run twice: once for the counterfactual scenario (hws = 0), and
 #   once for the factual scenario (hws = 1). Adjust the relevant variable accordingly.
-#   Ensure all required objects are loaded in the R environment before running.
-#   All necessary objects should be available from the stage 2 and data provided in 
-#   the supplementary material.
 #
 # AUTHORs: Aleš Urban, Veronika Huber, Pierre Masselot, Antonio Gasparrini
 # DATE: June 2025
@@ -41,25 +48,14 @@ library(pracma)      # For ndims
 # Assumes mainmod and blup_rnd already available 
 # Assumes eu_cities, dlist, and hws_ind are already loaded from stage 1
 
-check_required_objects <- function(required) {
-  missing <- required[!required %in% ls(envir = .GlobalEnv)]
-  if (length(missing) == 0) {
-    message("All required objects are present.")
-  } else {
-    warning("Missing objects: ", paste(missing, collapse = ", "))
-  }
-}
+eu_cities <- read.csv2("data/eu_cities.csv", sep = ";")
+hws_ind <- read_delim("data/hws_ind.csv", delim = ";", escape_double = FALSE, trim_ws = TRUE)
 
-required_objects <- c("mainmod","blup_rnd",
-                      "eu_cities", "dlist",
-                      "hws_ind")
-
-check_required_objects(required_objects)
 
 #===============================================================================
 # 3. SIMULATE COEFFICIENTS FROM MAIN META-REGRESSION MODEL
 #===============================================================================
-nsim <- 100  # Consider using at least 1000 for final analysis
+nsim <- 1000  # Consider using at least 1000 for final analysis
 set.seed(12345)
 metacoefsim <- mvrnorm(nsim, coef(mainmod), vcov(mainmod))
 
@@ -75,23 +71,23 @@ country <- levels(as.factor(eu_cities$countryname))
 # Rename all objects with "hws1" to "hws0" to get outputs for both scenarios
 ###############!!!
 
-ansimlist_0_hws1 <- ansimlist_1_hws1 <- 
-  afsimlist_0_hws1 <- afsimlist_1_hws1 <- 
+ansimlist_0_hws0 <- ansimlist_1_hws0 <- 
+  afsimlist_0_hws0 <- afsimlist_1_hws0 <- 
   matrix(nrow = length(country), ncol = nsim,
          dimnames = list(country, c(1:nsim)))
 
-ancitysimlist_0_hws1 <- ancitysimlist_1_hws1 <- 
-  afcitysimlist_0_hws1 <- afcitysimlist_1_hws1 <- 
+ancitysimlist_0_hws0 <- ancitysimlist_1_hws0 <- 
+  afcitysimlist_0_hws0 <- afcitysimlist_1_hws0 <- 
   matrix(nrow = length(eu_cities$city), ncol = nsim,
          dimnames = list(eu_cities$cityname, c(1:nsim)))
 
 # Tables for storing results
-af_table_countries_hws1 <- array(NA, c(length(country)*100, 11))
-colnames(af_table_countries_hws1) <- c("region","hwsclass","country","year","hws","AN","ANlow","ANhigh","AF","AFlow","AFhigh")
+af_table_countries_hws0 <- array(NA, c(length(country)*100, 11))
+colnames(af_table_countries_hws0) <- c("region","hwsclass","country","year","hws","AN","ANlow","ANhigh","AF","AFlow","AFhigh")
 row_index <- 0
 
-af_table_cities_hws1 <- array(NA,c(length(eu_cities$city)*10+1,12))
-colnames(af_table_cities_hws1) <- c("region","hwsclass","country","city","year","hws","AN","ANlow","ANhigh","AF","AFlow","AFhigh")
+af_table_cities_hws0 <- array(NA,c(length(eu_cities$city)*10+1,12))
+colnames(af_table_cities_hws0) <- c("region","hwsclass","country","city","year","hws","AN","ANlow","ANhigh","AF","AFlow","AFhigh")
 row <- 0
 r <- 0
 
@@ -100,12 +96,12 @@ r <- 0
 # 6. EXPANDED LOOP: COUNTRY -> CITY -> PERIOD
 #===============================================================================
 
-af_table_countries_hws1 <- array(NA,c(length(country)*100,11))
-colnames(af_table_countries_hws1) <- c("region","hwsclass","country","year","hws","AN","ANlow","ANhigh","AF","AFlow","AFhigh")
+af_table_countries_hws0 <- array(NA,c(length(country)*100,11))
+colnames(af_table_countries_hws0) <- c("region","hwsclass","country","year","hws","AN","ANlow","ANhigh","AF","AFlow","AFhigh")
 row_index <- 0
 
-af_table_cities_hws1 <- array(NA,c(length(eu_cities$city)*10+1,12))
-colnames(af_table_cities_hws1) <- c("region","hwsclass","country","city","year","hws","AN","ANlow","ANhigh","AF","AFlow","AFhigh")
+af_table_cities_hws0 <- array(NA,c(length(eu_cities$city)*10+1,12))
+colnames(af_table_cities_hws0) <- c("region","hwsclass","country","city","year","hws","AN","ANlow","ANhigh","AF","AFlow","AFhigh")
 row <- 0
 r <- 0
 
@@ -124,9 +120,9 @@ for (r in 1:length(country)){
                      g=2008:2010,h=2011:2013,i=2014:2016,
                      j=2017:2019)  
   
-  anlist_hws1 <- aflist_hws1 <- hwslist_hws1 <- matrix(nrow = nrow(cities), ncol = length(yearlistII), 
+  anlist_hws0 <- aflist_hws0 <- hwslist_hws0 <- matrix(nrow = nrow(cities), ncol = length(yearlistII), 
                                                        dimnames = list(cities$city, names(yearlistII)))
-  ansimlist_hws1 <- afsimlist_hws1 <- array(dim = c(nrow(cities), length(yearlistII), nsim),
+  ansimlist_hws0 <- afsimlist_hws0 <- array(dim = c(nrow(cities), length(yearlistII), nsim),
                                             dimnames = list(cities$city, names(yearlistII), NULL))
   
   # Loop across cities
@@ -219,7 +215,7 @@ for (r in 1:length(country)){
       ###############!!!
       
       # Data for prediction 
-      datapred1 <- data.frame(Region=cities$Region[1],hws=1, year=yearlist[[y]][2]) # Expanded to all years
+      datapred1 <- data.frame(Region=cities$Region[1],hws=0, year=yearlist[[y]][2]) # Expanded to all years
       
       # We need to build the model matrix to predict (adapted from predict.mixmeta function)
       tt <- delete.response(mainmod$terms)
@@ -255,12 +251,12 @@ for (r in 1:length(country)){
       
       # We can now compute the AN
       anday <- (1 - exp(-btmean0cen %*% pred1blup)) * all0
-      anlist_hws1[city, names(yearlist)[y]] <- ((sum(anday[heatind], na.rm = T)/cities$pop[city])*100000)/3
+      anlist_hws0[city, names(yearlist)[y]] <- ((sum(anday[heatind], na.rm = T)/cities$pop[city])*100000)/3
       
       # And the AF (add [heatind] if computed for hot days only)
-      aflist_hws1[city, names(yearlist)[y]] <- sum(anday[heatind], na.rm = T) / sum(all0,na.rm=T)*100
+      aflist_hws0[city, names(yearlist)[y]] <- sum(anday[heatind], na.rm = T) / sum(all0,na.rm=T)*100
       
-      hwslist_hws1[city, names(yearlist)[y]] <- round(mean(dat0$hws))
+      hwslist_hws0[city, names(yearlist)[y]] <- round(mean(dat0$hws))
       
       #----- Now we have to do the same for all simulated coefficients
       sim <- 1
@@ -271,10 +267,10 @@ for (r in 1:length(country)){
         
         # We can now compute AN as before
         andaysim <- (1 - exp(-btmean0cen %*% sim1blup)) * all0
-        ansimlist_hws1[city, names(yearlist)[y], sim] <- ((sum(andaysim[heatind], na.rm = T)/cities$pop[city])*100000)/3
+        ansimlist_hws0[city, names(yearlist)[y], sim] <- ((sum(andaysim[heatind], na.rm = T)/cities$pop[city])*100000)/3
         
         # And the AF
-        afsimlist_hws1[city, names(yearlist)[y], sim] <- sum(andaysim[heatind], na.rm = T) / 
+        afsimlist_hws0[city, names(yearlist)[y], sim] <- sum(andaysim[heatind], na.rm = T) / 
           sum(all0,na.rm=T)*100
       }
     } 
@@ -283,21 +279,21 @@ for (r in 1:length(country)){
   #----- Confidence intervals at city/period level
   
   # Compute CI as quantiles of the simulated ANs
-  AN <- anlist_hws1
-  ANlow <- apply(ansimlist_hws1, 1:2, quantile, .025, na.rm = T)
-  ANhigh <- apply(ansimlist_hws1, 1:2, quantile, .975, na.rm = T)
+  AN <- anlist_hws0
+  ANlow <- apply(ansimlist_hws0, 1:2, quantile, .025, na.rm = T)
+  ANhigh <- apply(ansimlist_hws0, 1:2, quantile, .975, na.rm = T)
   
   # We can look at an example (Gothenburg)
-  anlist_hws1[1,]; ANlow[1,]; ANhigh[1,]
+  anlist_hws0[1,]; ANlow[1,]; ANhigh[1,]
   
   # Same for AF
-  AF <- aflist_hws1
-  AFlow <- apply(afsimlist_hws1, 1:2, quantile, .025, na.rm = T)
-  AFhigh <- apply(afsimlist_hws1, 1:2, quantile, .975, na.rm = T)
+  AF <- aflist_hws0
+  AFlow <- apply(afsimlist_hws0, 1:2, quantile, .025, na.rm = T)
+  AFhigh <- apply(afsimlist_hws0, 1:2, quantile, .975, na.rm = T)
   
-  aflist_hws1[1,]; AFlow[1,]; AFhigh[1,]
+  aflist_hws0[1,]; AFlow[1,]; AFhigh[1,]
   
-  HWS <- hwslist_hws1
+  HWS <- hwslist_hws0
   
   j<-1
   for (j in 1:length(cities$cityname)){
@@ -305,114 +301,118 @@ for (r in 1:length(country)){
                       as.numeric(AF[j,]),as.numeric(AFlow[j,]),as.numeric(AFhigh[j,]))
     k<-0
     for (k in 1:length(df1)){
-      af_table_cities_hws1[row+1:length(yearlistII),k] <- df1[,k]
+      af_table_cities_hws0[row+1:length(yearlistII),k] <- df1[,k]
     }
     row <- row+length(yearlistII)
   }
   # ----- Now for regions we have to sum city-level ANs
   
-  HWShws1 <- round(colMeans(hwslist_hws1, na.rm = T))
+  HWShws0 <- round(colMeans(hwslist_hws0, na.rm = T))
   
   # Point estimate
-  ANhws1 <- colMeans(anlist_hws1, na.rm = T)
+  ANhws0 <- colMeans(anlist_hws0, na.rm = T)
   
-  ANhws10 <- if(length(anlist_hws1[,HWShws1=="0"])==1){
-    mean(anlist_hws1[,HWShws1=="0"])} else if (pracma::ndims(anlist_hws1[,HWShws1=="0"])==1){
-      mean(anlist_hws1[,HWShws1=="0"])} else {
-        mean(colMeans(anlist_hws1[,HWShws1=="0"], na.rm = T))
+  ANhws00 <- if(length(anlist_hws0[,HWShws0=="0"])==1){
+    mean(anlist_hws0[,HWShws0=="0"])} else if (pracma::ndims(anlist_hws0[,HWShws0=="0"])==1){
+      mean(anlist_hws0[,HWShws0=="0"])} else {
+        mean(colMeans(anlist_hws0[,HWShws0=="0"], na.rm = T))
       }
   
-  ANhws11 <- if(length(anlist_hws1[,HWShws1=="1"])==1){
-    mean(anlist_hws1[,HWShws1=="1"])} else if (pracma::ndims(anlist_hws1[,HWShws1=="1"])==1){
-      mean(anlist_hws1[,HWShws1=="1"])} else {
-        mean(colMeans(anlist_hws1[,HWShws1=="1"], na.rm = T))
+  ANhws01 <- if(length(anlist_hws0[,HWShws0=="1"])==1){
+    mean(anlist_hws0[,HWShws0=="1"])} else if (pracma::ndims(anlist_hws0[,HWShws0=="1"])==1){
+      mean(anlist_hws0[,HWShws0=="1"])} else {
+        mean(colMeans(anlist_hws0[,HWShws0=="1"], na.rm = T))
       }
   
   # Confidence intervals, we first have to sum ANs for all cities for each simulation
-  anhws1sim <- apply(ansimlist_hws1, 2:3, mean, na.rm = T) # sum all cities
-  ANhws1high <- apply(anhws1sim, 1, quantile, .975, na.rm = T) # Quantiles on sum
-  ANhws1low <- apply(anhws1sim, 1, quantile, .025, na.rm = T) # Quantiles on sum
+  anhws0sim <- apply(ansimlist_hws0, 2:3, mean, na.rm = T) # sum all cities
+  ANhws0high <- apply(anhws0sim, 1, quantile, .975, na.rm = T) # Quantiles on sum
+  ANhws0low <- apply(anhws0sim, 1, quantile, .025, na.rm = T) # Quantiles on sum
   
-  ANhws1; ANhws1low; ANhws1high
+  ANhws0; ANhws0low; ANhws0high
   
-  anhws1sim0 <- apply(ansimlist_hws1, 2:3, mean, na.rm = T) # sum all cities
-  # anhws1sim0 <- anhws1sim0[HWShws1=="0",]         # select periods
-  anhws1sim0 <- if(pracma::ndims(anhws1sim0[HWShws1=="0",])==1){
-    anhws1sim0[HWShws1=="0",]} else {
-      apply(anhws1sim0[HWShws1=="0",], 2, mean, na.rm = T)}  # sum of periods
-  ANhws1high0 <- quantile(anhws1sim0,.975, na.rm = T) # Quantiles of sums
-  ANhws1low0 <- quantile(anhws1sim0,.025, na.rm = T) # Quantiles of sums
+  anhws0sim0 <- apply(ansimlist_hws0, 2:3, mean, na.rm = T) # sum all cities
+  # anhws0sim0 <- anhws0sim0[HWShws0=="0",]         # select periods
+  anhws0sim0 <- if(pracma::ndims(anhws0sim0[HWShws0=="0",])==1){
+    anhws0sim0[HWShws0=="0",]} else {
+      apply(anhws0sim0[HWShws0=="0",], 2, mean, na.rm = T)}  # sum of periods
+  ANhws0high0 <- quantile(anhws0sim0,.975, na.rm = T) # Quantiles of sums
+  ANhws0low0 <- quantile(anhws0sim0,.025, na.rm = T) # Quantiles of sums
   
-  ansimlist_0_hws1[country[r],] <- anhws1sim0 # safe simulations
+  ansimlist_0_hws0[country[r],] <- anhws0sim0 # safe simulations
   
-  ANhws10; ANhws1low0; ANhws1high0
+  ANhws00; ANhws0low0; ANhws0high0
   
-  anhws1sim1 <- apply(ansimlist_hws1, 2:3, mean, na.rm = T) # sum all cities
-  anhws1sim1 <- if (pracma::ndims(anhws1sim1[HWShws1=="1",])==1){
-    anhws1sim1[HWShws1=="1",]} else {
-      apply(anhws1sim1[HWShws1=="1",], 2, mean, na.rm = T)}  # sum of periods
-  ANhws1high1 <- quantile(anhws1sim1,.975, na.rm = T) # Quantiles on sum
-  ANhws1low1 <- quantile(anhws1sim1,.025, na.rm = T) # Quantiles on sum
+  anhws0sim1 <- apply(ansimlist_hws0, 2:3, mean, na.rm = T) # sum all cities
+  anhws0sim1 <- if (pracma::ndims(anhws0sim1[HWShws0=="1",])==1){
+    anhws0sim1[HWShws0=="1",]} else {
+      apply(anhws0sim1[HWShws0=="1",], 2, mean, na.rm = T)}  # sum of periods
+  ANhws0high1 <- quantile(anhws0sim1,.975, na.rm = T) # Quantiles on sum
+  ANhws0low1 <- quantile(anhws0sim1,.025, na.rm = T) # Quantiles on sum
   
-  ansimlist_1_hws1[country[r],] <- anhws1sim1 # safe simulations
+  ansimlist_1_hws0[country[r],] <- anhws0sim1 # safe simulations
   
-  ANhws11; ANhws1low1; ANhws1high1
+  ANhws01; ANhws0low1; ANhws0high1
   
   
   #----- Now for regions we have to average city-level AFs
   
   # Point estimate
-  AFhws1 <- colMeans(aflist_hws1, na.rm = T)
-  AFhws10 <- if(pracma::ndims(aflist_hws1[,HWShws1=="0"])==1){mean(aflist_hws1[,HWShws1=="0"])} else {mean(colMeans(aflist_hws1[,HWShws1=="0"], na.rm = T))}
-  AFhws11 <- if(pracma::ndims(aflist_hws1[,HWShws1=="1"])==1){mean(aflist_hws1[,HWShws1=="1"])} else {mean(colMeans(aflist_hws1[,HWShws1=="1"], na.rm = T))}
+  AFhws0 <- colMeans(aflist_hws0, na.rm = T)
+  AFhws00 <- if(pracma::ndims(aflist_hws0[,HWShws0=="0"])==1){mean(aflist_hws0[,HWShws0=="0"])} else {mean(colMeans(aflist_hws0[,HWShws0=="0"], na.rm = T))}
+  AFhws01 <- if(pracma::ndims(aflist_hws0[,HWShws0=="1"])==1){mean(aflist_hws0[,HWShws0=="1"])} else {mean(colMeans(aflist_hws0[,HWShws0=="1"], na.rm = T))}
   
   # Confidence intervals, we first have to mean AFs for all cities for each simulation
-  afhws1sim <- apply(afsimlist_hws1, 2:3, mean, na.rm = T) # mean all cities
-  AFhws1high <- apply(afhws1sim, 1, quantile, .975, na.rm = T) # Quantiles on mean
-  AFhws1low <- apply(afhws1sim, 1, quantile, .025, na.rm = T) # Quantiles on mean
+  afhws0sim <- apply(afsimlist_hws0, 2:3, mean, na.rm = T) # mean all cities
+  AFhws0high <- apply(afhws0sim, 1, quantile, .975, na.rm = T) # Quantiles on mean
+  AFhws0low <- apply(afhws0sim, 1, quantile, .025, na.rm = T) # Quantiles on mean
   
-  AFhws1; AFhws1low; AFhws1high
+  AFhws0; AFhws0low; AFhws0high
   
-  afhws1sim0 <- apply(afsimlist_hws1, 2:3, mean, na.rm = T) # mean all cities
-  afhws1sim0 <- if (pracma::ndims(afhws1sim0[HWShws1=="0",])==1){
-    afhws1sim0[HWShws1=="0",]} else {
-      apply(afhws1sim0[HWShws1=="0",], 2, mean, na.rm = T)}  # mean of periods
-  AFhws1high0 <- quantile(afhws1sim0, .975, na.rm = T) # Quantiles on mean
-  AFhws1low0 <- quantile(afhws1sim0, .025, na.rm = T) # Quantiles on mean
+  afhws0sim0 <- apply(afsimlist_hws0, 2:3, mean, na.rm = T) # mean all cities
+  afhws0sim0 <- if (pracma::ndims(afhws0sim0[HWShws0=="0",])==1){
+    afhws0sim0[HWShws0=="0",]} else {
+      apply(afhws0sim0[HWShws0=="0",], 2, mean, na.rm = T)}  # mean of periods
+  AFhws0high0 <- quantile(afhws0sim0, .975, na.rm = T) # Quantiles on mean
+  AFhws0low0 <- quantile(afhws0sim0, .025, na.rm = T) # Quantiles on mean
   
-  afsimlist_0_hws1[country[r],] <- afhws1sim0 # safe simulations
+  afsimlist_0_hws0[country[r],] <- afhws0sim0 # safe simulations
   
-  AFhws10; AFhws1low0; AFhws1high0
+  AFhws00; AFhws0low0; AFhws0high0
   
-  afhws1sim1 <- apply(afsimlist_hws1, 2:3, mean, na.rm = T) # mean all cities
-  afhws1sim1 <- if (pracma::ndims(afhws1sim1[HWShws1=="1",])==1){
-    afhws1sim1[HWShws1=="1",]} else {
-      apply(afhws1sim1[HWShws1=="1",], 2, mean, na.rm = T)}  # mean of periods
-  AFhws1high1 <- quantile(afhws1sim1,.975, na.rm = T) # Quantiles on mean
-  AFhws1low1 <- quantile(afhws1sim1,.025, na.rm = T) # Quantiles on mean
+  afhws0sim1 <- apply(afsimlist_hws0, 2:3, mean, na.rm = T) # mean all cities
+  afhws0sim1 <- if (pracma::ndims(afhws0sim1[HWShws0=="1",])==1){
+    afhws0sim1[HWShws0=="1",]} else {
+      apply(afhws0sim1[HWShws0=="1",], 2, mean, na.rm = T)}  # mean of periods
+  AFhws0high1 <- quantile(afhws0sim1,.975, na.rm = T) # Quantiles on mean
+  AFhws0low1 <- quantile(afhws0sim1,.025, na.rm = T) # Quantiles on mean
   
-  afsimlist_1_hws1[country[r],] <- afhws1sim1 # safe simulations
+  afsimlist_1_hws0[country[r],] <- afhws0sim1 # safe simulations
   
-  AFhws11; AFhws1low1; AFhws1high1
+  AFhws01; AFhws0low1; AFhws0high1
   
-  df2 <- data.frame(cities$Region[1],cities$hwc[1],country[r],as.numeric(sapply(yearlistII, mean)),HWShws1,as.numeric(ANhws1),as.numeric(ANhws1low),as.numeric(ANhws1high),
-                    as.numeric(AFhws1),as.numeric(AFhws1low),as.numeric(AFhws1high))
+  df2 <- data.frame(cities$Region[1],cities$hwc[1],country[r],as.numeric(sapply(yearlistII, mean)),HWShws0,as.numeric(ANhws0),as.numeric(ANhws0low),as.numeric(ANhws0high),
+                    as.numeric(AFhws0),as.numeric(AFhws0low),as.numeric(AFhws0high))
   
   i<-0
   for (i in 1:length(df2)){
-    af_table_countries_hws1[row_index+1:length(yearlistII),i] <- df2[,i]
+    af_table_countries_hws0[row_index+1:length(yearlistII),i] <- df2[,i]
   }
   row_index <- row_index+length(yearlistII)
   
   row_index <- row_index+1
-  af_table_countries_hws1[row_index,] <- c(cities$Region[1],cities$hwc[1],country[r],"period1","0",as.numeric(ANhws10),as.numeric(ANhws1low0),as.numeric(ANhws1high0),
-                                       as.numeric(AFhws10),as.numeric(AFhws1low0),as.numeric(AFhws1high0))
+  af_table_countries_hws0[row_index,] <- c(cities$Region[1],cities$hwc[1],country[r],"period1","0",as.numeric(ANhws00),as.numeric(ANhws0low0),as.numeric(ANhws0high0),
+                                       as.numeric(AFhws00),as.numeric(AFhws0low0),as.numeric(AFhws0high0))
   row_index <- row_index+1
-  af_table_countries_hws1[row_index,] <- c(cities$Region[1],cities$hwc[1],country[r],"period2","1",as.numeric(ANhws11),as.numeric(ANhws1low1),as.numeric(ANhws1high1),
-                                       as.numeric(AFhws11),as.numeric(AFhws1low1),as.numeric(AFhws1high1))
+  af_table_countries_hws0[row_index,] <- c(cities$Region[1],cities$hwc[1],country[r],"period2","1",as.numeric(ANhws01),as.numeric(ANhws0low1),as.numeric(ANhws0high1),
+                                       as.numeric(AFhws01),as.numeric(AFhws0low1),as.numeric(AFhws0high1))
 }
 
 #===============================================================================
 # 7. EXPORT FINAL OUTPUTS (UNCOMMENT TO SAVE)
 #===============================================================================
 # write.csv(af_table_countries_hws0, "data/af_table_countries_hws0.csv", row.names=FALSE)
+# write.csv(ansimlist_0_hws0, "data/ansimlist_0_hws0.csv", row.names=FALSE)
+# write.csv(ansimlist_1_hws0, "data/ansimlist_1_hws0.csv", row.names=FALSE)
+
+

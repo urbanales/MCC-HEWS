@@ -69,8 +69,8 @@ xval <- tmean[avgtmeansum$perc %in% paste0(xperc, ".0%")]
 #===============================================================================
 
 # Model 0: HPP (hws) only
-# mod0 <- mixmeta(coef ~ hws, vcov, data=cityinfo, method="ml",
-#                 random=~I(year-2005)|cityname, bscov="diag")
+mod0 <- mixmeta(coef ~ hws, vcov, data=cityinfo, method="ml",
+                random=~I(year-2005)|cityname, bscov="diag")
 
 # Model 3: Year and Region interaction (selected model)
 mod3 <- update(mod0, coef ~ hws + I(year - 2005) * Region)

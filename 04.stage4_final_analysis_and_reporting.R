@@ -459,7 +459,7 @@ AFratio <- ggplot(af_aftable_sub,aes(x=country, y=AF, ymin=AFlow,ymax=AFhigh, co
   # scale_fill_manual(values = c("cornflowerblue","orange","chartreuse3","coral3"),name="Region")+
   scale_colour_manual(values = c("cornflowerblue","orange","chartreuse3","coral3","black"),name="Region")+
   labs(y="HAF change [%]",x="")+ 
-  ylim(-75, 35)+
+  ylim(-100, 35)+
   scale_x_discrete(limits = rev)+
   geom_hline(yintercept=0)+
   coord_flip()+

@@ -1,6 +1,8 @@
 # The effectiveness of heat prevention plans in reducing heat-related mortality across Europe
 
-This repository contains the full reproducible R code pipeline for the study: **"The effectiveness of heat prevention plans in reducing heat-related mortality across Europe."** https://iopscience.iop.org/article/10.1088/1748-9326/ae2775
+This repository contains the full reproducible R code pipeline for the study: **"The effectiveness of heat prevention plans in reducing heat-related mortality across Europe."** 
+
+Urban, A. et al. (2025) The effectiveness of heat prevention plans in reducing heat-related mortality across Europe. Environ. Res. Lett. https://iopscience.iop.org/article/10.1088/1748-9326/ae2775
 
  The analysis is structured in four main scripts, each corresponding to a major stage of the research workflow.
 
